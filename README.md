@@ -19,7 +19,7 @@
 https://github.com/lihuan6015-droid/yuanmind-downloads/releases/latest
 ```
 
-当前阶段：安装包尚未上传。请等待 macOS / Windows 安装包完成签名、公证、打包和真机验收。
+当前阶段：安装包尚未上传。内测早期安装包可能尚未完成正式签名、公证或 Windows 代码签名；下载前请优先确认 Release 来源和 SHA-256 校验和。
 
 ## 平台状态
 
@@ -31,18 +31,51 @@ https://github.com/lihuan6015-droid/yuanmind-downloads/releases/latest
 
 ## 安装说明
 
+> 未签名内测包只建议在你信任 YuanMind 发布来源、且校验和一致时安装。不要从第三方转发链接下载安装包。
+
 ### macOS
 
 1. 从 Releases 下载 `.dmg` 安装包。
 2. 打开 `.dmg`。
 3. 将 YuanMind 拖入 Applications。
-4. 首次启动如遇 macOS 安全提示，请按正式版本说明操作。
+4. 首次启动如遇 “无法打开，因为无法验证开发者” 或类似 Gatekeeper 提示：
+   - 推荐方式：在 Finder 中右键 YuanMind，选择“打开”，再在系统提示中确认打开。
+   - 或者：先尝试打开一次失败后，进入“系统设置 → 隐私与安全性”，在安全提示处选择“仍要打开”。
+5. 如果内测包仍被 quarantine 标记拦截，且你已确认校验和无误，可在终端执行：
+
+```bash
+xattr -dr com.apple.quarantine /Applications/YuanMind.app
+```
+
+不建议关闭 Gatekeeper 全局安全策略。
 
 ### Windows
 
 1. 从 Releases 下载 `.exe` 安装包。
 2. 双击运行安装程序。
-3. 如遇安全软件提示，请确认文件来自本仓库正式 Release。
+3. 如果 Windows SmartScreen 提示“Windows 已保护你的电脑”，请先确认文件来自本仓库 Release 且校验和一致，再选择“更多信息 → 仍要运行”。
+4. 如果文件属性中出现“此文件来自其他计算机，可能被阻止”，可右键安装包 → “属性” → 勾选“解除锁定” → 应用。
+
+不建议关闭 Windows Defender 或系统安全防护来安装内测包。
+
+## 发布方式建议
+
+安装包不建议提交进 git 历史。推荐把 `.dmg`、`.exe`、校验和和版本说明作为 GitHub Release assets 发布。
+
+短期可以手动发布：
+
+1. 私有 YuanMind 仓库完成打包后，在 Actions 页面下载构建产物。
+2. 本地计算 SHA-256，并更新 `checksums/SHA256SUMS.txt`。
+3. 在本仓库 GitHub Releases 新建版本，上传 `.dmg`、`.exe` 和校验和文件。
+4. 检查 `https://github.com/lihuan6015-droid/yuanmind-downloads/releases/latest` 是否指向最新版本。
+
+长期建议自动发布：
+
+1. 私有 YuanMind 仓库的打包 workflow 产出安装包。
+2. 使用仅授权 `lihuan6015-droid/yuanmind-downloads` 的 fine-grained PAT 或 GitHub App token，保存为私有仓库 Secret。
+3. workflow 使用该 token 在本公开下载仓库创建 Release 并上传 assets。
+
+注意：GitHub Actions 默认 `GITHUB_TOKEN` 只适用于当前 workflow 所在仓库；跨仓库发布需要额外授权 token。
 
 ## 校验和
 
