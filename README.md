@@ -59,9 +59,7 @@ xattr -dr com.apple.quarantine /Applications/YuanMind.app
 不建议关闭 Windows Defender 或系统安全防护来安装内测包。
 
 ## 校验和
-
-每个正式 Release 都应附带 SHA-256 校验和。上传安装包后，请同步更新：
-
+每个 Release 自动附带 .sha256 校验文件
 ```txt
 checksums/SHA256SUMS.txt
 ```
