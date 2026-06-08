@@ -1,0 +1,5 @@
+# 安装包上传后，在这里记录 SHA-256 校验和。
+#
+# 示例:
+# <sha256>  YuanMind-macOS-universal.dmg
+# <sha256>  YuanMind-Windows-x64.exe
