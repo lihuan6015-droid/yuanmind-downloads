@@ -58,25 +58,6 @@ xattr -dr com.apple.quarantine /Applications/YuanMind.app
 
 不建议关闭 Windows Defender 或系统安全防护来安装内测包。
 
-## 发布方式建议
-
-安装包不建议提交进 git 历史。推荐把 `.dmg`、`.exe`、校验和和版本说明作为 GitHub Release assets 发布。
-
-短期可以手动发布：
-
-1. 私有 YuanMind 仓库完成打包后，在 Actions 页面下载构建产物。
-2. 本地计算 SHA-256，并更新 `checksums/SHA256SUMS.txt`。
-3. 在本仓库 GitHub Releases 新建版本，上传 `.dmg`、`.exe` 和校验和文件。
-4. 检查 `https://github.com/lihuan6015-droid/yuanmind-downloads/releases/latest` 是否指向最新版本。
-
-长期建议自动发布：
-
-1. 私有 YuanMind 仓库的打包 workflow 产出安装包。
-2. 使用仅授权 `lihuan6015-droid/yuanmind-downloads` 的 fine-grained PAT 或 GitHub App token，保存为私有仓库 Secret。
-3. workflow 使用该 token 在本公开下载仓库创建 Release 并上传 assets。
-
-注意：GitHub Actions 默认 `GITHUB_TOKEN` 只适用于当前 workflow 所在仓库；跨仓库发布需要额外授权 token。
-
 ## 校验和
 
 每个正式 Release 都应附带 SHA-256 校验和。上传安装包后，请同步更新：
